@@ -52,6 +52,12 @@ class PlainDistributeurSchema(PlainUtilisateurSchema):
     code_agent = fields.Str(required=True)
     plaque = fields.Int(required=True)
     
+class PlainProduitSchema(Schema):
+    id = fields.Int(dump_only=True)
+    libelle_produit = fields.Str(required=True)
+    prix_unitaire = fields.Float(required=True)
+    url = fields.Str(required=True)
+    
 class ClientSchema(PlainClientSchema):
     utlilisateur_id = fields.Int(required=True, load_only=True)
     depot = fields.Nested(PlainDepotSchema(), dump_only=True)
@@ -69,13 +75,7 @@ class DepotSchema(PlainDepotSchema):
 class LivraisonSchema(PlainLivraisonSchema):
     distributeur_id = fields.Nested(PlainDistributeurSchema(),load_only=True)
     commande_id = fields.Nested(PlainCommandeSchema(),load_only=True)
-
-class PlainProduitSchema(Schema):
-    id = fields.Int(dump_only=True)
-    libelle_produit = fields.Str(required=True)
-    prix_unitaire = fields.Float(required=True)
-    url = fields.Str(required=True)
-    
+ 
 class ProduitSchema(PlainProduitSchema):
     Commande = fields.List(fields.Nested(PlainCommandeSchema()), dump_only=True)
 
