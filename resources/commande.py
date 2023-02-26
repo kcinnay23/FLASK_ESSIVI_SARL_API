@@ -6,13 +6,14 @@ from db import db
 from models import CommandeModel
 from schemas import CommandeSchema, CommandeUpdateSchema
 
-blp = Blueprint("Commandes", "commandes", description="Operations sur les commandes")
+blp = Blueprint("Commandes", "commandes",
+                description="Operations sur les commandes")
 
 
 @blp.route("/commande/<string:commande_id>")
 class Commande(MethodView):
     @blp.response(200, CommandeSchema)
-    #Afficher une commmande
+    # Afficher une commmande
     def get(self, commande_id):
         commande = CommandeModel.query.get_or_404(commande_id)
         return commande
@@ -24,9 +25,9 @@ class Commande(MethodView):
         db.session.commit()
         return {"message": "Commande deleted."}"""
 
-    #@blp.arguments(CommandeUpdateSchema)
-    #@blp.response(200, CommandeSchema)
-    #Modifier une commmande
+    # @blp.arguments(CommandeUpdateSchema)
+    # @blp.response(200, CommandeSchema)
+    # Modifier une commmande
     # def put(self, commande_data, commande_id):
     #    commande = CommandeModel.query.get(commande_id)
 
@@ -44,13 +45,13 @@ class Commande(MethodView):
 @blp.route("/commande")
 class CommandeList(MethodView):
     @blp.response(200, CommandeSchema(many=True))
-    #Afficher tout les commmandes
+    # Afficher tout les commmandes
     def get(self):
         return CommandeModel.query.all()
 
     @blp.arguments(CommandeSchema)
     @blp.response(201, CommandeSchema)
-    #Ajouter une commmandes
+    # Ajouter une commmandes
     def post(self, commande_data):
         commande = CommandeModel(**commande_data)
 

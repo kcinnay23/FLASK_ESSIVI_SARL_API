@@ -1,5 +1,9 @@
+import os
 from flask import Flask
 from flask_smorest import Api
+from flask_jwt_extended import JWTManager
+import secrets
+
 
 import models
 
@@ -21,14 +25,19 @@ def create_app(db_url=None):
     app.config[
         "OPENAPI_SWAGGER_UI_URL"
     ] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
-    #app.config["SQLALCHEMY_DATABASE_URI"] = db_url or "sqlite:///data.db"
-    #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/essivi'
+    # app.config["SQLALCHEMY_DATABASE_URI"] = db_url or "sqlite:///data.db"
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/essivi'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/essivi'
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["PROPAGATE_EXCEPTIONS"] = True
+    
     db.init_app(app)
     api = Api(app)
+    
+    #app.config["JWT_SECRET_KEY"] = "235373032930652279442321549971329156695"
+    app.config["JWT_SECRET_KEY"] = "Yann"
+    jwt = JWTManager(app)
 
     with app.app_context():
         db.create_all()

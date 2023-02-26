@@ -12,12 +12,12 @@ blp = Blueprint("Clients", "clients", description="Opérations sur les clients")
 @blp.route("/client/<string:client_id>")
 class Client(MethodView):
     @blp.response(200, ClientSchema)
-    #Récuperer un client
+    # Récuperer un client
     def get(self, client_id):
         client = ClientModel.query.get_or_404(client_id)
         return client
 
-    #Supprimer un client
+    # Supprimer un client
     def delete(self, client_id):
         Client = ClientModel.query.get_or_404(client_id)
         db.session.delete(Client)
@@ -26,7 +26,7 @@ class Client(MethodView):
 
     @blp.arguments(ClientUpdateSchema)
     @blp.response(200, ClientSchema)
-    #Modifier un client
+    # Modifier un client
     def put(self, Client_data, client_id):
         Client = ClientModel.query.get(client_id)
 
@@ -47,13 +47,13 @@ class Client(MethodView):
 @blp.route("/client")
 class ClientList(MethodView):
     @blp.response(200, ClientSchema(many=True))
-    #Récuperer tout les client
+    # Récuperer tout les client
     def get(self):
         return ClientModel.query.all()
 
     @blp.arguments(ClientSchema)
     @blp.response(201, ClientSchema)
-    #Ajouter un client
+    # Ajouter un client
     def post(self, Client_data):
         Client = ClientModel(**Client_data)
 

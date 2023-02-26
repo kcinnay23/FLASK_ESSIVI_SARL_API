@@ -6,13 +6,14 @@ from db import db
 from models import LivraisonModel
 from schemas import LivraisonSchema
 
-blp = Blueprint("Livraisons", "livraisons", description="Operations sur les livraisons")
+blp = Blueprint("Livraisons", "livraisons",
+                description="Operations sur les livraisons")
 
 
 @blp.route("/livraison/<string:livraison_id>")
 class Livraison(MethodView):
     @blp.response(200, LivraisonSchema)
-    #Ajouter une livraison
+    # Ajouter une livraison
     def get(self, livraison_id):
         livraison = LivraisonModel.query.get_or_404(livraison_id)
         return livraison
@@ -24,16 +25,17 @@ class Livraison(MethodView):
         db.session.commit()
         return {"message": "Livraison deleted."}"""
 
+
 @blp.route("/livraison")
 class LivraisonList(MethodView):
     @blp.response(200, LivraisonSchema(many=True))
-    #Afficher une livraison
+    # Afficher une livraison
     def get(self):
         return LivraisonModel.query.all()
 
     @blp.arguments(LivraisonSchema)
     @blp.response(201, LivraisonSchema)
-    #Ajouter une livraison
+    # Ajouter une livraison
     def post(self, livraison_data):
         livraison = LivraisonModel(**livraison_data)
 

@@ -8,10 +8,11 @@ from schemas import ProduitSchema, CommandeAndProduitSchema
 
 blp = Blueprint("Produits", "produits", description="Operations les produits")
 
+
 @blp.route("/commande/<string:commande_id>/produit/<string:produit_id>")
 class LinkCommandesToProduit(MethodView):
     @blp.response(201, ProduitSchema)
-    #Afficher un produit d'une commande 
+    # Afficher un produit d'une commande
     def post(self, commande_id, produit_id):
         commande = CommandeModel.query.get_or_404(commande_id)
         produit = ProduitModel.query.get_or_404(produit_id)
@@ -25,9 +26,9 @@ class LinkCommandesToProduit(MethodView):
             abort(500, message="An error occurred while inserting the produit.")
 
         return produit
-    
+
     @blp.response(200, CommandeAndProduitSchema)
-    #Supprimer un produit d'une commande 
+    # Supprimer un produit d'une commande
     def delete(self, commande_id, produit_id):
         commande = CommandeModel.query.get_or_404(commande_id)
         produit = ProduitModel.query.get_or_404(produit_id)
@@ -46,7 +47,7 @@ class LinkCommandesToProduit(MethodView):
 @blp.route("/produit/<string:produit_id>")
 class Tag(MethodView):
     @blp.response(200, ProduitSchema)
-    #Récupérer un produit 
+    # Récupérer un produit
     def get(self, produit_id):
         produit = ProduitModel.query.get_or_404(produit_id)
         return produit
@@ -61,7 +62,7 @@ class Tag(MethodView):
         400,
         description="Returned if the produit is assigned to one or more commandes. In this case, the produit is not deleted.",
     )
-    #Supprimer un produit  
+    # Supprimer un produit
     def delete(self, produit_id):
         produit = ProduitModel.query.get_or_404(produit_id)
 
@@ -73,17 +74,18 @@ class Tag(MethodView):
             400,
             message="Could not delete produit. Make sure produit is not associated with any commandes, then try again.",  # noqa: E501
         )
-        
+
+
 @blp.route("/produit")
 class ProduitList(MethodView):
     @blp.response(200, ProduitSchema(many=True))
-    #Afficher un produit 
+    # Afficher un produit
     def get(self):
         return ProduitModel.query.all()
 
     @blp.arguments(ProduitSchema)
     @blp.response(201, ProduitSchema)
-    #Ajouter un produit
+    # Ajouter un produit
     def post(self, produit_data):
         produit = ProduitModel(**produit_data)
         try:

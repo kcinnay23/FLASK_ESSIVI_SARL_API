@@ -13,11 +13,11 @@ blp = Blueprint("Depots", "depots", description="Operations sur les dépôts")
 @blp.route("/depot/<string:depot_id>")
 class Depot(MethodView):
     @blp.response(200, DepotSchema)
-    #Afficher un dépôt
+    # Afficher un dépôt
     def get(self, depot_id):
         depot = DepotModel.query.get_or_404(depot_id)
         return depot
-    
+
     """Supprimer un dépôt
     def delete(self, depot_id):
         depot = DepotModel.query.get_or_404(depot_id)
@@ -25,16 +25,17 @@ class Depot(MethodView):
         db.session.commit()
         return {"message": "Depot deleted"}, 200"""
 
+
 @blp.route("/depot")
 class DepotList(MethodView):
     @blp.response(200, DepotSchema(many=True))
-    #Afficher tout dépôt
+    # Afficher tout dépôt
     def get(self):
         return DepotModel.query.all()
 
     @blp.arguments(DepotSchema)
     @blp.response(201, DepotSchema)
-    #Ajouter un dépôt
+    # Ajouter un dépôt
     def post(self, depot_data):
         depot = DepotModel(**depot_data)
         try:

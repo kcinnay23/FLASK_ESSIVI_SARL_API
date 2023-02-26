@@ -8,8 +8,8 @@ class CommandeModel(db.Model):
     qte_cde = db.Column(db.Integer, unique=True, nullable=False)
     etat_cde = db.Column(db.String(40), default="En cours")
     
-    livraison = db.relationship(
-        "LivraisonModel", back_populates="Commandes", lazy=True
+    livraisons = db.relationship(
+        "LivraisonModel", back_populates="commandes", lazy=True
     )
     
-    produit = db.relationship("ProduitModel", back_populates="commandes", secondary="Cde_Prods")
+    produits = db.relationship("ProduitModel", back_populates="commandes", secondary="Cde_Prods")

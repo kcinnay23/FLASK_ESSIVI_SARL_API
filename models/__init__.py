@@ -8,6 +8,8 @@ from models.livraison import LivraisonModel
 
 from models.produit import ProduitModel
 
+from models.cde_prod import Cde_Prod
+
 from models.utilisateur import UtilisateurModel
 
 from models.administrateur import UtilisateurModel,AdminModel

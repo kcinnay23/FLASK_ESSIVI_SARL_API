@@ -1,5 +1,6 @@
 from db import db
 
+
 class LivraisonModel(db.Model):
     __tablename__ = "livraisons"
 
@@ -11,13 +12,16 @@ class LivraisonModel(db.Model):
     remise = db.Column(db.Float, unique=False, nullable=False)
     montant_remise = db.Column(db.Float, unique=True, nullable=False)
     montant_Final = db.Column(db.Float, unique=True, nullable=False)
-    
+
     distributeur_id = db.Column(
         db.Integer, db.ForeignKey("distributeurs.id"), unique=False, nullable=False
     )
     
+    distributeurs = db.relationship("DistributeurModel", back_populates="livraisons")
+
+
     commande_id = db.Column(
         db.Integer, db.ForeignKey("commandes.id"), unique=False, nullable=False
     )
-    
-    
+
+    commandes = db.relationship("CommandeModel", back_populates="livraisons")

@@ -1,5 +1,6 @@
 from db import db
 
+
 class DepotModel(db.Model):
     __tablename__ = "depots"
 
@@ -11,6 +12,6 @@ class DepotModel(db.Model):
     client_id = db.Column(
         db.Integer, db.ForeignKey("clients.id"), unique=False, nullable=False
     )
-
-
+    
+    clients = db.relationship("ClientModel", back_populates="depots")
 
