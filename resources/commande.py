@@ -10,7 +10,7 @@ blp = Blueprint("Commandes", "commandes",
                 description="Operations sur les commandes")
 
 
-@blp.route("/commande/<string:commande_id>")
+@blp.route("/commande/<int:commande_id>")
 class Commande(MethodView):
     @blp.response(200, CommandeSchema)
     # Afficher une commmande

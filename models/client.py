@@ -10,12 +10,11 @@ class ClientModel(db.Model):
     numTel = db.Column(db.String(40), unique=True, nullable=False)
     adresse = db.Column(db.String(40), unique=True, nullable=False)
 
-    #utilisateur_id = db.Column(
-    #    db.Integer, db.ForeignKey("utilisateurs.id"), unique=False, nullable=False
-    #)
+    utilisateur_id = db.Column(
+        db.Integer, db.ForeignKey("utilisateurs.id"), unique=False, nullable=False
+    )
     
-    #utilisateurs = db.relationship("UtilisateurModel", back_populates="clients")
-
+    utilisateurs = db.relationship("UtilisateurModel", back_populates="clients")
 
     depots = db.relationship(
         "DepotModel", back_populates="clients", lazy=True

@@ -10,7 +10,7 @@ blp = Blueprint("Livraisons", "livraisons",
                 description="Operations sur les livraisons")
 
 
-@blp.route("/livraison/<string:livraison_id>")
+@blp.route("/livraison/<int:livraison_id>")
 class Livraison(MethodView):
     @blp.response(200, LivraisonSchema)
     # Ajouter une livraison

@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 from db import db
 from models import ClientModel
@@ -9,7 +9,7 @@ from schemas import ClientSchema, ClientUpdateSchema
 blp = Blueprint("Clients", "clients", description="Opérations sur les clients")
 
 
-@blp.route("/client/<string:client_id>")
+@blp.route("/client/<int:client_id>")
 class Client(MethodView):
     @blp.response(200, ClientSchema)
     # Récuperer un client
@@ -47,20 +47,35 @@ class Client(MethodView):
 @blp.route("/client")
 class ClientList(MethodView):
     @blp.response(200, ClientSchema(many=True))
-    # Récuperer tout les client
+    # Récuperer tout les clients
     def get(self):
         return ClientModel.query.all()
 
     @blp.arguments(ClientSchema)
     @blp.response(201, ClientSchema)
     # Ajouter un client
-    def post(self, Client_data):
-        Client = ClientModel(**Client_data)
-
+    def post(self, client_data):
+        client = ClientModel(**client_data)
         try:
-            db.session.add(Client)
+            db.session.add(client)
             db.session.commit()
+        except IntegrityError:
+            abort(
+                400,
+                message="A client with that name already exists.",
+            )
         except SQLAlchemyError:
-            abort(500, message="An error occurred while inserting the Client.")
+            abort(500, message="An error occurred creating the client.")
 
-        return Client
+        if not isinstance(client, ClientModel):
+            abort(500, message="Client was not created correctly.")
+        
+        return client
+
+
+
+
+
+
+
+

@@ -9,7 +9,7 @@ from schemas import ProduitSchema, CommandeAndProduitSchema
 blp = Blueprint("Produits", "produits", description="Operations les produits")
 
 
-@blp.route("/commande/<string:commande_id>/produit/<string:produit_id>")
+@blp.route("/commande/<int:commande_id>/produit/<int:produit_id>")
 class LinkCommandesToProduit(MethodView):
     @blp.response(201, ProduitSchema)
     # Afficher un produit d'une commande
@@ -44,7 +44,7 @@ class LinkCommandesToProduit(MethodView):
         return {"message": "Produit removed from produit", "commande": commande, "produit": produit}
 
 
-@blp.route("/produit/<string:produit_id>")
+@blp.route("/produit/<int:produit_id>")
 class Tag(MethodView):
     @blp.response(200, ProduitSchema)
     # Récupérer un produit
@@ -57,7 +57,7 @@ class Tag(MethodView):
         description="Deletes a produit if no commande is produitged with it.",
         example={"message": "Tag deleted."},
     )
-    @blp.alt_response(404, description="Tag not found.")
+    @blp.alt_response(404, description="Produit not found.")
     @blp.alt_response(
         400,
         description="Returned if the produit is assigned to one or more commandes. In this case, the produit is not deleted.",
@@ -79,7 +79,7 @@ class Tag(MethodView):
 @blp.route("/produit")
 class ProduitList(MethodView):
     @blp.response(200, ProduitSchema(many=True))
-    # Afficher un produit
+    # Afficher les produits
     def get(self):
         return ProduitModel.query.all()
 

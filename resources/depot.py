@@ -10,7 +10,7 @@ from schemas import DepotSchema
 blp = Blueprint("Depots", "depots", description="Operations sur les dépôts")
 
 
-@blp.route("/depot/<string:depot_id>")
+@blp.route("/depot/<int:depot_id>")
 class Depot(MethodView):
     @blp.response(200, DepotSchema)
     # Afficher un dépôt
